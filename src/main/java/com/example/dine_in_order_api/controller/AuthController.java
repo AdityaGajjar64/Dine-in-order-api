@@ -2,6 +2,7 @@ package com.example.dine_in_order_api.controller;
 
 import com.example.dine_in_order_api.dto.request.AuthRecord;
 import com.example.dine_in_order_api.dto.request.LoginRequest;
+import com.example.dine_in_order_api.dto.request.ResetPasswordRequest;
 import com.example.dine_in_order_api.security.fillters.FillterHalper;
 import com.example.dine_in_order_api.security.jwt.TokenType;
 import com.example.dine_in_order_api.service.AuthService;

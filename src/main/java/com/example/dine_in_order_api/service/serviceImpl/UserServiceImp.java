@@ -1,11 +1,12 @@
 package com.example.dine_in_order_api.service.serviceImpl;
 
-import com.example.dine_in_order_api.config.AppEnv;
+import com.example.dine_in_order_api.dto.request.ResetPasswordRequest;
 import com.example.dine_in_order_api.dto.request.UserRegistrationRequest;
 import com.example.dine_in_order_api.dto.request.UserRequest;
 import com.example.dine_in_order_api.dto.responce.UserResponce;
 import com.example.dine_in_order_api.enums.UserRole;
 import com.example.dine_in_order_api.exception.IllegalRequestException;
+import com.example.dine_in_order_api.exception.InvalidPasswordException;
 import com.example.dine_in_order_api.exception.RestaurantNotFoundException;
 import com.example.dine_in_order_api.mapper.UserMapper;
 import com.example.dine_in_order_api.model.*;
@@ -16,13 +17,10 @@ import com.example.dine_in_order_api.security.util.UserIentity;
 import com.example.dine_in_order_api.service.UserService;
 import lombok.AllArgsConstructor;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -84,6 +82,18 @@ public class UserServiceImp implements UserService{
         }
     }
 
+
+    @Override
+    public void resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        User user = userIentity.getCurrentUser();
+        if(passwordEncoder.matches(resetPasswordRequest.getOldPassword(), user.getPassword())){
+            user.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
+            userRepository.save(user);
+        }
+        else {
+            throw new InvalidPasswordException("Enter valid old password !!");
+        }
+    }
 
     private void encryptPassword(User user){
         String encodedPassword =  passwordEncoder.encode(user.getPassword());

@@ -46,7 +46,7 @@ public class AuthFillter extends OncePerRequestFilter {
                  String role = claims.get(ClaimName.USER_role, String.class);
 
                  if ((email != null && !email.isBlank()) && (role != null && !role.isBlank())) {
-                     if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                     if (SecurityContextHolder.getContext().getAuthentication() == null){
                          UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                                  email,
                                  null,

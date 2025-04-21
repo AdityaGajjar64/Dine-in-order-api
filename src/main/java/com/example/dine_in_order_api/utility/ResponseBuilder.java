@@ -33,6 +33,7 @@ public class ResponseBuilder {
         ListResponseStructure<T> res = ListResponseStructure.<T>builder()
                 .message(message)
                 .httpStatus(httpStatus.value())
+                .httpStatus(httpStatus.value())
                 .data(data)
                 .build();
         return ResponseEntity.status(httpStatus).body(res);
@@ -69,6 +70,16 @@ public class ResponseBuilder {
 
         return ResponseEntity.status(httpStatus)
                 .headers(httpHeaders)
+                .body(res);
+    }
+
+    public static  ResponseEntity<SimpleResponseStructure> success(HttpStatus httpStatus,String message) {
+        SimpleResponseStructure res =  SimpleResponseStructure.builder()
+                .message(message)
+                .httpStatus(httpStatus.value())
+                .build();
+
+        return ResponseEntity.status(httpStatus)
                 .body(res);
     }
 

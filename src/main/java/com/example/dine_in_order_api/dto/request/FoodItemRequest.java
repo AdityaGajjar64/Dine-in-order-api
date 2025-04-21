@@ -37,4 +37,6 @@ public class FoodItemRequest {
     @NotEmpty(message = "cuisine type can't be empty ")
     @Valid
     private List<@NotBlank(message = "Cuisine type cannot be blank !!") String> categories;
+
+
 }

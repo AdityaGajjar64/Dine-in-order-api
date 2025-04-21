@@ -1,6 +1,7 @@
 package com.example.dine_in_order_api.service;
 
 
+import com.example.dine_in_order_api.dto.request.ResetPasswordRequest;
 import com.example.dine_in_order_api.dto.request.UserRegistrationRequest;
 import com.example.dine_in_order_api.dto.request.UserRequest;
 import com.example.dine_in_order_api.dto.responce.UserResponce;
@@ -36,4 +37,6 @@ public interface UserService {
     public UserResponce updateById(UserRequest user);
 
     UserResponce staffRegistration(@Valid UserRegistrationRequest registrationRequest, long id);
+
+    void resetPassword(ResetPasswordRequest resetPasswordRequest);
 }

@@ -1,12 +1,14 @@
 package com.example.dine_in_order_api.controller;
 
 
+import com.example.dine_in_order_api.dto.request.ResetPasswordRequest;
 import com.example.dine_in_order_api.dto.request.UserRegistrationRequest;
 import com.example.dine_in_order_api.dto.request.UserRequest;
 import com.example.dine_in_order_api.dto.responce.UserResponce;
 import com.example.dine_in_order_api.service.UserService;
 import com.example.dine_in_order_api.utility.ResponseBuilder;
 import com.example.dine_in_order_api.utility.ResponseStructure;
+import com.example.dine_in_order_api.utility.SimpleResponseStructure;
 import com.example.dine_in_order_api.utility.ValidationErrorsStructure;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +58,13 @@ public class UserController {
     public ResponseEntity<ResponseStructure<UserResponce>> findById() {
         UserResponce user = userService.findById();
         return ResponseBuilder.ok(user,"Data Fetched !!");
+    }
+
+    @PatchMapping("/reset-password")
+    public ResponseEntity<SimpleResponseStructure> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
+        System.out.println("here");
+        userService.resetPassword(resetPasswordRequest);
+        return ResponseBuilder.success(HttpStatus.OK,"Password Updated");
     }
 
     //update by id

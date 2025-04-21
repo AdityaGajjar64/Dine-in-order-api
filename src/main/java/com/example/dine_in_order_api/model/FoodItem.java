@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -60,6 +61,11 @@ public class FoodItem {
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurent restaurent;
+
+    private boolean isDeleted;
+
+    @CreatedBy
+    private String createdBy;
 
     @ManyToMany
     private List<Category> categories;

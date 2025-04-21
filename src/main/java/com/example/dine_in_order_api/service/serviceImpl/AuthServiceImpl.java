@@ -3,9 +3,11 @@ package com.example.dine_in_order_api.service.serviceImpl;
 import com.example.dine_in_order_api.config.AppEnv;
 import com.example.dine_in_order_api.dto.request.AuthRecord;
 import com.example.dine_in_order_api.dto.request.LoginRequest;
+import com.example.dine_in_order_api.dto.request.ResetPasswordRequest;
 import com.example.dine_in_order_api.dto.responce.UserResponce;
 import com.example.dine_in_order_api.enums.UserRole;
 import com.example.dine_in_order_api.exception.CustomAuthenticationException;
+import com.example.dine_in_order_api.exception.InvalidPasswordException;
 import com.example.dine_in_order_api.exception.UserNotFoundException;
 import com.example.dine_in_order_api.model.User;
 import com.example.dine_in_order_api.repository.UserRepository;
@@ -23,6 +25,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 
@@ -39,13 +42,13 @@ public class AuthServiceImpl implements AuthService {
     private final TokenBlackListService tokenBlackListService;
     private final CookieManager cookieManager;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AuthRecord login(LoginRequest loginRequest) {
 
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
-
         try {
             Authentication authentication = authenticationManager.authenticate(token);
             if (!authentication.isAuthenticated()){
